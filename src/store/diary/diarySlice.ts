@@ -16,7 +16,7 @@ const mockItems = [
 const diarySlice = createSlice({
     name: 'diary',
     initialState: {
-        entries: mockItems
+        entries: [],
     },
     reducers: {
         addEntry: (state, action) => {

@@ -16,7 +16,8 @@ interface ItemProps {
 }
 
 function Item({ diary}: ItemProps) {
-  return (<View style={{borderRadius: 20, padding: 20, backgroundColor: '#fff'}}>
+  return (
+  <View style={{borderRadius: 20, padding: 20, backgroundColor: '#fff'}}>
     <View style={{ justifyContent: "space-between", flexDirection: 'row' }}>
       <Text style={{ color: '#AD8474' }}>{diary.created.toLocaleDateString()}</Text>
       <Text style={{ color: '#AD8474' }}>{diary.created.toLocaleDateString('EN', { weekday: 'long' }) }</Text>
@@ -46,15 +47,15 @@ export default function Index() {
           <MaterialIcons size={35} name="add" color='#fff' style={{backgroundColor: '#bd691a', padding: 10, borderRadius: 30}} />
         </TouchableHighlight>
       </View>
-      {items.length && (
+      {!!items.length && (
         <VirtualizedList 
-        ItemSeparatorComponent={() => <View style={{ margin: 5}} />}
-        renderItem={({item}: {item: DiaryItem}) => <Item diary={item}/>}
-        keyExtractor={item => item.id}
-        getItemCount={(_data) => _data?.length}
-        getItem={(data, index): DiaryItem => data[index]}
-        data={items}
-      />
+          ItemSeparatorComponent={() => <View style={{ margin: 5}} />}
+          renderItem={({item}: {item: DiaryItem}) => <Item diary={item}/>}
+          keyExtractor={item => item.id}
+          getItemCount={(_data) => _data?.length}
+          getItem={(data, index): DiaryItem => data[index]}
+          data={items}
+        />
       )}
       {!items.length && (
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}><Text style={{color: '#543022'}}>Write something to your diary</Text></View>

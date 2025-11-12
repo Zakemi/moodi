@@ -2,22 +2,54 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Checkbox } from 'expo-checkbox';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Modal, Pressable, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-native';
+import { FlatList, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 import { addEntry } from '../store/diary';
 
 export default function ModalScreen() {
   const [text, setText] = useState('')
   const [moods, setMoods] = useState([
-    { isSet: false, mood: 'happy'},
-    { isSet: false, mood: 'sad'},
-    { isSet: false, mood: 'joyful'},
-    { isSet: false, mood: 'depressive'},
-  ])
+    // Positive moods
+    { isSet: false, mood: 'joyful' },
+    { isSet: false, mood: 'grateful' },
+    { isSet: false, mood: 'hopeful' },
+    { isSet: false, mood: 'content' },
+    { isSet: false, mood: 'inspired' },
+    { isSet: false, mood: 'motivated' },
+    { isSet: false, mood: 'peaceful' },
+    { isSet: false, mood: 'excited' },
+    { isSet: false, mood: 'relieved' },
+    { isSet: false, mood: 'confident' },
+    // Negative moods
+    { isSet: false, mood: 'anxious' },
+    { isSet: false, mood: 'frustrated' },
+    { isSet: false, mood: 'angry' },
+    { isSet: false, mood: 'disappointed' },
+    { isSet: false, mood: 'overwhelmed' },
+    { isSet: false, mood: 'sad' },
+    { isSet: false, mood: 'lonely' },
+    { isSet: false, mood: 'melancholic' },
+    { isSet: false, mood: 'guilty' },
+    { isSet: false, mood: 'worried' },
+    // Natural/Complex moods
+    { isSet: false, mood: 'reflective' },
+    { isSet: false, mood: 'nostalgic' },
+    { isSet: false, mood: 'curious' },
+    { isSet: false, mood: 'confused' },
+    { isSet: false, mood: 'indifferent' },
+    { isSet: false, mood: 'thoughtful' },
+    { isSet: false, mood: 'ambivalent' },
+    { isSet: false, mood: 'surprised' },
+    { isSet: false, mood: 'skeptical' },
+    { isSet: false, mood: 'bored' }
+])
   const [moodModalVisible, setMoodModalVisible] = useState(false)
   const now = new Date();
   const router = useRouter()
   const dispatch = useDispatch()
+
+  const selectedMoods = moods.filter(mood => mood.isSet).map(mood => mood.mood)
 
   const onAddPress = () => {
     dispatch(addEntry({
@@ -33,16 +65,6 @@ export default function ModalScreen() {
     setMoods(prevMoods => prevMoods.map(mood => mood.mood === changedMood ? { mood: mood.mood, isSet } : mood))
   }
 
-  const onMoodsEdit = () => {
-    setMoodModalVisible(true)
-  }
-
-  const getMoodList = () => {
-    const selectedMoods = moods.filter(mood => mood.isSet).map(mood => mood.mood)
-
-    return selectedMoods.length ? selectedMoods.join(', ') : null
-  }
-
   return (
     <View style={styles.container}>
       <Modal
@@ -52,23 +74,29 @@ export default function ModalScreen() {
         onRequestClose={() => {
           setMoodModalVisible(false);
         }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <View style={{gap: 10, paddingBottom: 20}}>
-              {moods.map(mood => (
-              <View style={{ flexDirection: 'row', gap: 5 }}>
-                <Checkbox value={mood.isSet} onValueChange={(value: boolean) => onSetMood(mood.mood, value)}></Checkbox>
-                <Text>{mood.mood}</Text>
-              </View>
-            ))}
-            </View>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setMoodModalVisible(false)}>
-              <Text>Save</Text>
-            </Pressable>
+          <View style={styles.modalContainer}>
+            <SafeAreaView  style={styles.modalView}>
+              <Text style={styles.modalTitle}>Moods</Text>
+              <ScrollView style={{marginBottom: 20}}>
+                <FlatList
+                  data={moods}
+                  renderItem={({item: mood}) => (
+                    <View style={{ flexDirection: 'row', gap: 5 }}>
+                      <Checkbox value={mood.isSet} color='#bd691a' onValueChange={(value: boolean) => onSetMood(mood.mood, value)}></Checkbox>
+                      <Text>{mood.mood}</Text>
+                    </View>
+                  )}
+                  keyExtractor={item => item.mood}
+                  ItemSeparatorComponent={() => <View style={{marginBottom: 15}} />}
+                />
+              </ScrollView>
+              <Pressable
+                style={styles.button}
+                onPress={() => setMoodModalVisible(false)}>
+                <Text style={styles.buttonText}>Save</Text>
+              </Pressable>
+            </SafeAreaView>
           </View>
-        </View>
       </Modal>
       <View style={{ justifyContent: "space-between", flexDirection: 'row', paddingBottom: 10 }}>
         <Text style={{ color: '#AD8474' }}>{now.toLocaleDateString()}</Text>
@@ -78,7 +106,9 @@ export default function ModalScreen() {
         <>
           <View>
             <Text>What moods do you feel now?</Text>
-            <Text>{getMoodList()}</Text>
+            {!!selectedMoods.length && (
+              <Text style={{color: '#824d25'}}>{selectedMoods.join(', ')}</Text>
+            )}
           </View>
           <MaterialIcons size={20} name="edit" color='#000'/>
         </>
@@ -127,31 +157,31 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   button: {
-    borderRadius: 20,
     padding: 10,
-    elevation: 2,
-  },
-  buttonClose: {
-    backgroundColor: '#2196F3',
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#bd691a',
   },
-  modalView: {
-    margin: 20,
-    backgroundColor: 'white',
+  buttonText: {
+    color: '#fff'
+  },
+  modalContainer: {
+    flex: 1,
     borderRadius: 20,
     padding: 35,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center'
   },
+  modalTitle: {
+    textAlign: 'center',
+    fontSize: 20,
+    marginBottom: 20,
+  },
+  modalView: {
+    margin: 30,
+    maxHeight: '80%',
+    backgroundColor: 'white',
+    padding: 30,
+    width: '100%'
+  }
 });

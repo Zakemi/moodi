@@ -16,15 +16,17 @@ interface ItemProps {
 }
 
 function Item({ diary}: ItemProps) {
+  const createdDate = new Date(diary.created)
+
   return (
   <View style={{borderRadius: 20, padding: 20, backgroundColor: '#fff'}}>
     <View style={{ justifyContent: "space-between", flexDirection: 'row' }}>
-      <Text style={{ color: '#AD8474' }}>{diary.created.toLocaleDateString()}</Text>
-      <Text style={{ color: '#AD8474' }}>{diary.created.toLocaleDateString('EN', { weekday: 'long' }) }</Text>
+      <Text style={{ color: '#AD8474' }}>{createdDate.toLocaleDateString()}</Text>
+      <Text style={{ color: '#AD8474' }}>{createdDate.toLocaleDateString('EN', { weekday: 'long' }) }</Text>
     </View>
     <View style={{ borderBottomWidth: 1, borderColor: '#AD8474', marginTop: 3, marginBottom: 10}}/>
     <Text style={{color: '#543022'}}>{diary.text}</Text>
-    <Text style={{ color: '#AD8474', paddingTop: 10 }}>{diary.moods.join(', ')}</Text>
+    {!!diary.moods.length && (<Text style={{ color: '#AD8474', paddingTop: 10 }}>{diary.moods.join(', ')}</Text>)}
   </View>)
 }
 
@@ -36,7 +38,7 @@ export default function Index() {
     <View
       style={{
         flex: 1,
-        paddingRight: 16,
+            paddingRight: 16,
         paddingLeft: 16,
         position: 'relative',
         backgroundColor: '#f8e0c8',

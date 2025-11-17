@@ -52,11 +52,15 @@ export default function ModalScreen() {
   const selectedMoods = moods.filter(mood => mood.isSet).map(mood => mood.mood)
 
   const onAddPress = () => {
+    if (!text.length) {
+      return;
+    }
+
     dispatch(addEntry({
       id: Date.now().toString(),
       text,
       moods: moods.filter(mood => mood.isSet).map(mood => mood.mood),
-      created: new Date()
+      created: (new Date()).toISOString(),
     }))
     router.back()
   }

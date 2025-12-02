@@ -1,31 +1,52 @@
 import { useSQLiteContext } from 'expo-sqlite';
-import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addEntry, initEntries, initialized } from '../store/diary';
+
+// TODO Create common types
+interface DiaryItem {
+  id: string;
+  text: string;
+  moods: string[];
+  created: string;
+}
 
 export const useDiary = () => {
   const db = useSQLiteContext();
-  const [diaryEntries, setDiaryEntries] = useState([]);
+  const dispatch = useDispatch();
+  const isDiaryInitialized = useSelector(initialized);
 
-  useEffect(() => {
-    async function loadDiary() {
-      await db.execAsync(
-        'CREATE TABLE IF NOT EXISTS diary (id INTEGER PRIMARY KEY NOT NULL, text TEXT NOT NULL, moods TEXT, created TEXT NOT NULL)',
-      );
-      await db.execAsync(
-        `INSERT INTO diary (text, moods, created) VALUES ('My first diary entry', 'happy,joyful', '2025-11-21T17:40:56.238Z')`,
-      );
-
-      const allRows = await db.getAllAsync('SELECT * FROM diary');
-      for (const row of allRows) {
-        console.log(row.id, row.text, row.moods, row.created);
-      }
-      setDiaryEntries(
-        allRows.map((row) => ({ ...row, moods: row.moods.split(',') })),
-      );
+  async function loadDiary() {
+    if (isDiaryInitialized) {
+      return;
     }
-    loadDiary();
-  }, []);
+
+    await db.execAsync(
+      'CREATE TABLE IF NOT EXISTS diary (id INTEGER PRIMARY KEY NOT NULL, text TEXT NOT NULL, moods TEXT, created TEXT NOT NULL)',
+    );
+
+    const allRows = await db.getAllAsync('SELECT * FROM diary');
+    const formattedEntries = allRows.map((row) => ({
+      ...row,
+      moods: row.moods.split(','),
+    }));
+    dispatch(initEntries(formattedEntries));
+  }
+
+  const addItem = async (diaryItem: Omit<DiaryItem, 'id'>) => {
+    await db.execAsync(
+      `INSERT INTO diary (text, moods, created) VALUES ('${diaryItem.text}', '${diaryItem.moods.join(',')}', '${diaryItem.created}')`,
+    );
+    // TODO Find a way to use 'RETURNING id, text, moods, created' instead of query the new item
+    const newItem = await db.getFirstAsync(
+      `SELECT * FROM diary WHERE created = ?`,
+      diaryItem.created,
+    );
+    const formattedNewItem = { ...newItem, moods: newItem.moods.split(',') };
+    dispatch(addEntry(formattedNewItem));
+  };
 
   return {
-    diaryEntries,
+    loadDiary,
+    addItem,
   };
 };

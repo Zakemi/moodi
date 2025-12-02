@@ -1,8 +1,31 @@
+import { useDiary } from '@/src/hooks/useDiary';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Tabs } from 'expo-router';
+import { useEffect, useState } from 'react';
 
 export default function TabLayout() {
+  const [isReady, setIsReady] = useState(false);
+  const { loadDiary } = useDiary();
+
+  useEffect(() => {
+    async function initializeApp() {
+      try {
+        await loadDiary();
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setIsReady(true);
+      }
+    }
+
+    initializeApp();
+  }, []);
+
+  if (!isReady) {
+    return null;
+  }
+
   return (
     <Tabs
       screenOptions={{

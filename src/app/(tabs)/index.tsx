@@ -1,7 +1,8 @@
-import { useDiary } from '@/src/hooks/useDiary';
+import { diaryEntries } from '@/src/store/diary';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from 'expo-router';
 import { Text, TouchableHighlight, View, VirtualizedList } from 'react-native';
+import { useSelector } from 'react-redux';
 
 interface DiaryItem {
   id: string;
@@ -47,8 +48,7 @@ function Item({ diary }: ItemProps) {
 
 export default function Index() {
   const router = useRouter();
-  // const items = useSelector(diaryEntries) || [];
-  const { diaryEntries: items } = useDiary();
+  const items = useSelector(diaryEntries);
 
   return (
     <View

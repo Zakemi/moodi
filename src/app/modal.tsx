@@ -14,8 +14,7 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useDispatch } from 'react-redux';
-import { addEntry } from '../store/diary';
+import { useDiary } from '../hooks/useDiary';
 
 export default function ModalScreen() {
   const [text, setText] = useState('');
@@ -57,25 +56,22 @@ export default function ModalScreen() {
   const [moodModalVisible, setMoodModalVisible] = useState(false);
   const now = new Date();
   const router = useRouter();
-  const dispatch = useDispatch();
+  const { addItem } = useDiary();
 
   const selectedMoods = moods
     .filter((mood) => mood.isSet)
     .map((mood) => mood.mood);
 
-  const onAddPress = () => {
+  const onAddPress = async () => {
     if (!text.length) {
       return;
     }
 
-    dispatch(
-      addEntry({
-        id: Date.now().toString(),
-        text,
-        moods: moods.filter((mood) => mood.isSet).map((mood) => mood.mood),
-        created: new Date().toISOString(),
-      }),
-    );
+    await addItem({
+      text,
+      moods: moods.filter((mood) => mood.isSet).map((mood) => mood.mood),
+      created: new Date().toISOString(),
+    });
     router.back();
   };
 

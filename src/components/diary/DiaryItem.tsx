@@ -4,7 +4,7 @@ import {
   SURFACE_COLOR,
 } from '@/src/constants/style';
 import { Text, View } from 'react-native';
-import { Diary } from './types';
+import { Diary } from '../../types';
 
 interface DiaryItemProps {
   diary: Diary;

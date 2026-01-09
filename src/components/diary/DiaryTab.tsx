@@ -9,8 +9,8 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from 'expo-router';
 import { Text, TouchableHighlight, View, VirtualizedList } from 'react-native';
 import { useSelector } from 'react-redux';
+import { Diary } from '../../types';
 import { DiaryItem } from './DiaryItem';
-import { Diary } from './types';
 
 export function DiaryTab() {
   const router = useRouter();

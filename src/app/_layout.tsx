@@ -1,6 +1,7 @@
 import { Stack } from 'expo-router';
 import { SQLiteProvider } from 'expo-sqlite';
 import { Provider } from 'react-redux';
+import { BACKGROUND_COLOR, PRIMARY_COLOR } from '../constants/style';
 import { store } from '../store';
 
 export default function RootLayout() {
@@ -10,10 +11,10 @@ export default function RootLayout() {
         <Stack
           screenOptions={{
             headerStyle: {
-              backgroundColor: '#f8e0c8',
+              backgroundColor: BACKGROUND_COLOR,
             },
             headerShadowVisible: false,
-            headerTintColor: '#543022',
+            headerTintColor: PRIMARY_COLOR,
           }}
         >
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

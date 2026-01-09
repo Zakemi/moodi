@@ -14,6 +14,7 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { ACCENT_COLOR, BACKGROUND_COLOR, ON_ACCENT_COLOR, ON_SURFACE_COLOR, SECONDARY_COLOR, SECONDARY_VARIANT_COLOR, SURFACE_COLOR } from '../constants/style';
 import { useDiary } from '../hooks/useDiary';
 
 export default function ModalScreen() {
@@ -103,7 +104,7 @@ export default function ModalScreen() {
                   <View style={{ flexDirection: 'row', gap: 5 }}>
                     <Checkbox
                       value={mood.isSet}
-                      color="#bd691a"
+                      color={ACCENT_COLOR}
                       onValueChange={(value: boolean) =>
                         onSetMood(mood.mood, value)
                       }
@@ -133,8 +134,8 @@ export default function ModalScreen() {
           paddingBottom: 10,
         }}
       >
-        <Text style={{ color: '#AD8474' }}>{now.toLocaleDateString()}</Text>
-        <Text style={{ color: '#AD8474' }}>
+        <Text style={{ color: SECONDARY_VARIANT_COLOR }}>{now.toLocaleDateString()}</Text>
+        <Text style={{ color: SECONDARY_VARIANT_COLOR }}>
           {now.toLocaleDateString('EN', { weekday: 'long' })}
         </Text>
       </View>
@@ -146,12 +147,12 @@ export default function ModalScreen() {
           <View>
             <Text>What moods do you feel now?</Text>
             {!!selectedMoods.length && (
-              <Text style={{ color: '#824d25' }}>
+              <Text style={{ color: SECONDARY_COLOR }}>
                 {selectedMoods.join(', ')}
               </Text>
             )}
           </View>
-          <MaterialIcons size={20} name="edit" color="#000" />
+          <MaterialIcons size={20} name="edit" color={ON_SURFACE_COLOR} />
         </>
       </TouchableHighlight>
       <TextInput
@@ -171,9 +172,9 @@ export default function ModalScreen() {
           <MaterialIcons
             size={35}
             name="add"
-            color="#fff"
+            color={ON_ACCENT_COLOR}
             style={{
-              backgroundColor: '#bd691a',
+              backgroundColor: ACCENT_COLOR,
               padding: 10,
               borderRadius: 30,
             }}
@@ -190,18 +191,18 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 0,
     position: 'relative',
-    backgroundColor: '#f8e0c8',
+    backgroundColor: BACKGROUND_COLOR,
   },
   textInput: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: SURFACE_COLOR,
     borderRadius: 20,
     paddingLeft: 20,
     paddingRight: 20,
   },
   moodsInput: {
     marginBottom: 10,
-    backgroundColor: '#fff',
+    backgroundColor: SURFACE_COLOR,
     borderRadius: 20,
     paddingHorizontal: 20,
     paddingVertical: 10,
@@ -211,10 +212,10 @@ const styles = StyleSheet.create({
   button: {
     padding: 10,
     alignItems: 'center',
-    backgroundColor: '#bd691a',
+    backgroundColor: ACCENT_COLOR,
   },
   buttonText: {
-    color: '#fff',
+    color: ON_ACCENT_COLOR,
   },
   modalContainer: {
     flex: 1,

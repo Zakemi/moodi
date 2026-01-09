@@ -1,3 +1,4 @@
+import { BACKGROUND_COLOR, PRIMARY_COLOR, SECONDARY_VARIANT_COLOR } from '@/src/constants/style';
 import { useDiary } from '@/src/hooks/useDiary';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -30,18 +31,18 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: '#f8e0c8',
-          shadowColor: '#f8e0c8',
-          borderColor: '#f8e0c8',
+          backgroundColor: BACKGROUND_COLOR,
+          shadowColor: BACKGROUND_COLOR,
+          borderColor: BACKGROUND_COLOR,
         },
-        tabBarActiveTintColor: '#543022',
-        tabBarInactiveTintColor: '#B58877',
+        tabBarActiveTintColor: PRIMARY_COLOR,
+        tabBarInactiveTintColor: SECONDARY_VARIANT_COLOR,
         headerStyle: {
-          backgroundColor: '#f8e0c8',
-          shadowColor: '#f8e0c8',
-          borderColor: '#f8e0c8',
+          backgroundColor: BACKGROUND_COLOR,
+          shadowColor: BACKGROUND_COLOR,
+          borderColor: BACKGROUND_COLOR,
         },
-        headerTintColor: '#543022',
+        headerTintColor: PRIMARY_COLOR,
       }}
     >
       <Tabs.Screen
@@ -56,7 +57,7 @@ export default function TabLayout() {
             <Ionicons
               name="person-circle-outline"
               size={32}
-              color="#543022"
+              color={PRIMARY_COLOR}
               style={{ marginRight: 25 }}
             />
           ),

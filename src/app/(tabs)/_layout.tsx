@@ -1,4 +1,8 @@
-import { BACKGROUND_COLOR, PRIMARY_COLOR, SECONDARY_VARIANT_COLOR } from '@/src/constants/style';
+import {
+  BACKGROUND_COLOR,
+  PRIMARY_COLOR,
+  SECONDARY_VARIANT_COLOR,
+} from '@/src/constants/style';
 import { useDiary } from '@/src/hooks/useDiary';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';

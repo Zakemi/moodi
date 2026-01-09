@@ -14,7 +14,15 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ACCENT_COLOR, BACKGROUND_COLOR, ON_ACCENT_COLOR, ON_SURFACE_COLOR, SECONDARY_COLOR, SECONDARY_VARIANT_COLOR, SURFACE_COLOR } from '../constants/style';
+import {
+  ACCENT_COLOR,
+  BACKGROUND_COLOR,
+  ON_ACCENT_COLOR,
+  ON_SURFACE_COLOR,
+  SECONDARY_COLOR,
+  SECONDARY_VARIANT_COLOR,
+  SURFACE_COLOR,
+} from '../constants/style';
 import { useDiary } from '../hooks/useDiary';
 
 export default function ModalScreen() {
@@ -134,7 +142,9 @@ export default function ModalScreen() {
           paddingBottom: 10,
         }}
       >
-        <Text style={{ color: SECONDARY_VARIANT_COLOR }}>{now.toLocaleDateString()}</Text>
+        <Text style={{ color: SECONDARY_VARIANT_COLOR }}>
+          {now.toLocaleDateString()}
+        </Text>
         <Text style={{ color: SECONDARY_VARIANT_COLOR }}>
           {now.toLocaleDateString('EN', { weekday: 'long' })}
         </Text>

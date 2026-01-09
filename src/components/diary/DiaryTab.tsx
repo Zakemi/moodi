@@ -1,4 +1,9 @@
-import { ACCENT_COLOR, BACKGROUND_COLOR, ON_ACCENT_COLOR, PRIMARY_COLOR } from '@/src/constants/style';
+import {
+  ACCENT_COLOR,
+  BACKGROUND_COLOR,
+  ON_ACCENT_COLOR,
+  PRIMARY_COLOR,
+} from '@/src/constants/style';
 import { diaryEntries } from '@/src/store/diary';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from 'expo-router';

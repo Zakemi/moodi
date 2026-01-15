@@ -1,15 +1,16 @@
 import { SQLiteDatabase } from 'expo-sqlite';
-import { Diary } from '../types';
+import { Diary, DiaryStoreEntity } from '../types';
 
 export interface DiaryEntity {
+  id: string;
   text: string;
-  moods: string[];
+  moods: string;
   created: string;
 }
 
+export type NewDiaryItem = Omit<Diary, 'id' | 'created'>;
+
 // todo on exit app, close db?
-// todo is db shared? security?
-// todo redux thunk
 
 export async function initDatabase(db: SQLiteDatabase) {
   await db.execAsync(
@@ -19,26 +20,39 @@ export async function initDatabase(db: SQLiteDatabase) {
 
 export async function getAllDiaryEntities(
   db: SQLiteDatabase,
-): Promise<Diary[]> {
-  const allRows = await db.getAllAsync('SELECT * FROM diary');
-  return allRows.map((row) => ({
-    ...row,
-    moods: row.moods.split(','),
-  }));
+): Promise<DiaryStoreEntity[]> {
+  const allRows = await db.getAllAsync<DiaryEntity>(
+    'SELECT * FROM diary ORDER BY datetime(created) DESC',
+  );
+  return allRows.map((row) => transformToDiaryStoreEntity(row));
 }
 
 export async function createDiaryEntity(
   db: SQLiteDatabase,
-  diaryEntity: DiaryEntity,
-) {
-  await db.execAsync(
-    `INSERT INTO diary (text, moods, created) VALUES ('${diaryEntity.text}', '${diaryEntity.moods.join(',')}', '${diaryEntity.created}')`,
+  diary: NewDiaryItem,
+): Promise<DiaryStoreEntity | null> {
+  const statement = await db.prepareAsync(
+    'INSERT INTO diary (text, moods, created) VALUES (?, ?, ?) RETURNING *',
   );
+  try {
+    const result = await statement.executeAsync<DiaryEntity>(
+      diary.text,
+      diary.moods.join(','),
+      new Date().toISOString(),
+    );
+    const newItem = await result.getFirstAsync();
 
-  // TODO Find a way to use 'RETURNING id, text, moods, created' instead of query the new item
-  const newItem = await db.getFirstAsync(
-    `SELECT * FROM diary WHERE created = ?`,
-    diaryEntity.created,
-  );
-  return { ...newItem, moods: newItem.moods.split(',') };
+    return newItem ? transformToDiaryStoreEntity(newItem) : null;
+  } finally {
+    await statement.finalizeAsync();
+  }
+}
+
+function transformToDiaryStoreEntity(
+  diaryEntity: DiaryEntity,
+): DiaryStoreEntity {
+  return {
+    ...diaryEntity,
+    moods: diaryEntity.moods.length ? diaryEntity.moods.split(',') : [],
+  };
 }

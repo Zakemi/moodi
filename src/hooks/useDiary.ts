@@ -2,12 +2,13 @@ import { useSQLiteContext } from 'expo-sqlite';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   createDiaryEntity,
-  DiaryEntity,
   getAllDiaryEntities,
   initDatabase,
+  NewDiaryItem,
 } from '../helpers/database';
 import { addEntry, initEntries, initialized } from '../store/diary';
 
+// todo use redux thunk instead
 export const useDiary = () => {
   const db = useSQLiteContext();
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ export const useDiary = () => {
     dispatch(initEntries(allEntities));
   }
 
-  const addItem = async (diaryEntity: DiaryEntity) => {
+  const addItem = async (diaryEntity: NewDiaryItem) => {
     const newItem = await createDiaryEntity(db, diaryEntity);
     dispatch(addEntry(newItem));
   };

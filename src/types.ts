@@ -4,3 +4,10 @@ export interface Diary {
   moods: string[];
   created: Date;
 }
+
+export interface DiaryStoreEntity {
+  id: string;
+  text: string;
+  moods: string[];
+  created: string;
+}

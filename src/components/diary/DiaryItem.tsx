@@ -19,7 +19,10 @@ export function DiaryItem({ diary }: DiaryItemProps) {
     >
       <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
         <Text style={{ color: SECONDARY_VARIANT_COLOR }}>
-          {createdDate.toLocaleDateString()}
+          {createdDate.toLocaleDateString('EN', {
+            hour: 'numeric',
+            minute: 'numeric',
+          })}
         </Text>
         <Text style={{ color: SECONDARY_VARIANT_COLOR }}>
           {createdDate.toLocaleDateString('EN', { weekday: 'long' })}

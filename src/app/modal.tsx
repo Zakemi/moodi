@@ -79,7 +79,6 @@ export default function ModalScreen() {
     await addItem({
       text,
       moods: moods.filter((mood) => mood.isSet).map((mood) => mood.mood),
-      created: new Date().toISOString(),
     });
     router.back();
   };

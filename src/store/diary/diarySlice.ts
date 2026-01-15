@@ -8,7 +8,7 @@ const diarySlice = createSlice({
   },
   reducers: {
     addEntry: (state, action) => {
-      state.entries.push(action.payload);
+      state.entries = [action.payload, ...state.entries];
     },
     initEntries: (state, action) => {
       state.entries.push(...action.payload);

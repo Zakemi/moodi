@@ -1,50 +1,34 @@
-import {
-  ACCENT_COLOR,
-  BACKGROUND_COLOR,
-  ON_ACCENT_COLOR,
-  PRIMARY_COLOR,
-} from '@/src/constants/style';
+import { ON_ACCENT_COLOR } from '@/src/constants/style';
 import { diaryEntries } from '@/src/store/diary';
+import { Diary } from '@/src/types';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from 'expo-router';
 import { Text, TouchableHighlight, View, VirtualizedList } from 'react-native';
 import { useSelector } from 'react-redux';
-import { Diary } from '../../types';
 import { DiaryItem } from './DiaryItem';
+import { styles } from './DiaryTab.styles';
 
 export function DiaryTab() {
   const router = useRouter();
   const items = useSelector(diaryEntries);
 
   return (
-    <View
-      style={{
-        flex: 1,
-        paddingRight: 16,
-        paddingLeft: 16,
-        position: 'relative',
-        backgroundColor: BACKGROUND_COLOR,
-      }}
-    >
-      <View
-        style={{ position: 'absolute', bottom: 16, right: 32, zIndex: 100 }}
-      >
+    <View style={styles.container}>
+      <View style={styles.addNewContainer}>
         <TouchableHighlight onPress={() => router.navigate('/modal')}>
           <MaterialIcons
             size={35}
             name="add"
             color={ON_ACCENT_COLOR}
-            style={{
-              backgroundColor: ACCENT_COLOR,
-              padding: 10,
-              borderRadius: 30,
-            }}
+            style={styles.addNewIcon}
           />
         </TouchableHighlight>
       </View>
       {!!items.length && (
         <VirtualizedList
-          ItemSeparatorComponent={() => <View style={{ margin: 5 }} />}
+          ItemSeparatorComponent={() => (
+            <View style={styles.diaryItemSeparator} />
+          )}
           renderItem={({ item }: { item: Diary }) => <DiaryItem diary={item} />}
           keyExtractor={(item) => item.id}
           getItemCount={(_data) => _data?.length}
@@ -53,10 +37,8 @@ export function DiaryTab() {
         />
       )}
       {!items.length && (
-        <View
-          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
-        >
-          <Text style={{ color: PRIMARY_COLOR }}>
+        <View style={styles.addNewContainer}>
+          <Text style={styles.emptyDiaryText}>
             Write something to your diary
           </Text>
         </View>

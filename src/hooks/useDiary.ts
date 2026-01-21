@@ -1,12 +1,7 @@
+import { diaryDao, NewDiaryItem } from '@/src/helpers/diaryDao';
+import { addEntry, initEntries, initialized } from '@/src/store/diary';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  createDiaryEntity,
-  getAllDiaryEntities,
-  initDatabase,
-  NewDiaryItem,
-} from '../helpers/database';
-import { addEntry, initEntries, initialized } from '../store/diary';
 
 // todo use redux thunk instead
 export const useDiary = () => {
@@ -20,14 +15,14 @@ export const useDiary = () => {
     }
 
     // todo Call it in Splash screen instead
-    await initDatabase(db);
+    await diaryDao.initDatabase(db);
 
-    const allEntities = await getAllDiaryEntities(db);
+    const allEntities = await diaryDao.getAllDiaryEntities(db);
     dispatch(initEntries(allEntities));
   }
 
   const addItem = async (diaryEntity: NewDiaryItem) => {
-    const newItem = await createDiaryEntity(db, diaryEntity);
+    const newItem = await diaryDao.createDiaryEntity(db, diaryEntity);
     dispatch(addEntry(newItem));
   };
 

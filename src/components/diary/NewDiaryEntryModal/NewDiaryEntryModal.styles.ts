@@ -32,6 +32,20 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  imagesInput: {
+    flexDirection: 'row',
+    flexGrow: 0,
+  },
+  imageButton: {
+    padding: 10,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderStyle: 'dashed',
+    borderColor: SECONDARY_VARIANT_COLOR,
+  },
+  addImageButton: {
+    margin: 20,
+  },
   button: {
     padding: 10,
     alignItems: 'center',
@@ -82,5 +96,8 @@ export const styles = StyleSheet.create({
     backgroundColor: ACCENT_COLOR,
     padding: 10,
     borderRadius: 30,
+  },
+  cameraContainer: {
+    zIndex: 500,
   },
 });

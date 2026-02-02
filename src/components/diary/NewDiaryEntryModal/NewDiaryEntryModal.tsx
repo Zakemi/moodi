@@ -2,23 +2,30 @@ import {
   ACCENT_COLOR,
   ON_ACCENT_COLOR,
   ON_SURFACE_COLOR,
+  SECONDARY_VARIANT_COLOR,
 } from '@/src/constants/style';
 import { useDiary } from '@/src/hooks/useDiary';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Checkbox } from 'expo-checkbox';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
+  Button,
   FlatList,
+  Image,
   Modal,
   Pressable,
   ScrollView,
+  StyleSheet,
   Text,
   TextInput,
   TouchableHighlight,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { PhotoFile, useCameraPermission } from 'react-native-vision-camera';
+import { Camera } from '../../camera';
 import { styles } from './NewDiaryEntryModal.styles';
 
 export function NewDiaryEntryModal() {
@@ -62,6 +69,9 @@ export function NewDiaryEntryModal() {
   const now = new Date();
   const router = useRouter();
   const { addItem } = useDiary();
+  const { hasPermission, requestPermission } = useCameraPermission();
+  const [isCameraActive, setCameraActive] = useState(false);
+  const [photos, setPhotos] = useState<PhotoFile[]>([]);
 
   const selectedMoods = moods
     .filter((mood) => mood.isSet)
@@ -75,6 +85,7 @@ export function NewDiaryEntryModal() {
     await addItem({
       text,
       moods: moods.filter((mood) => mood.isSet).map((mood) => mood.mood),
+      photoUrls: photos.map((photo) => `file://${photo.path}`),
     });
     router.back();
   };
@@ -85,6 +96,11 @@ export function NewDiaryEntryModal() {
         mood.mood === changedMood ? { mood: mood.mood, isSet } : mood,
       ),
     );
+  };
+
+  const handlePhotoCaptured = (photo: PhotoFile) => {
+    setCameraActive(false);
+    setPhotos((prevValue) => [...prevValue, photo]);
   };
 
   return (
@@ -162,6 +178,56 @@ export function NewDiaryEntryModal() {
         textAlignVertical="top"
         placeholder="What happened today?"
       />
+      {!hasPermission && (
+        <View>
+          <Text>Need camera permission to attach photos</Text>
+          <Button
+            title="Grant permission"
+            onPress={() => requestPermission()}
+          />
+        </View>
+      )}
+      {hasPermission && (
+        <ScrollView
+          style={styles.imagesInput}
+          contentContainerStyle={{
+            alignItems: 'flex-start',
+            flexDirection: 'row',
+            gap: 10,
+            padding: 4,
+            marginTop: 20,
+            marginBottom: 40,
+          }}
+        >
+          <TouchableHighlight
+            style={styles.imageButton}
+            onPress={() => setCameraActive(true)}
+          >
+            <MaterialCommunityIcons
+              style={styles.addImageButton}
+              color={SECONDARY_VARIANT_COLOR}
+              size={60}
+              name="camera-plus"
+            />
+          </TouchableHighlight>
+          {photos.map((photo) => (
+            <TouchableHighlight key={photo.path} style={styles.imageButton}>
+              <Image width={100} height={100} src={`file://${photo.path}`} />
+            </TouchableHighlight>
+          ))}
+        </ScrollView>
+      )}
+      <View
+        style={[
+          StyleSheet.absoluteFill,
+          isCameraActive && styles.cameraContainer,
+        ]}
+      >
+        <Camera
+          isActive={isCameraActive}
+          onPhotoCaptured={handlePhotoCaptured}
+        />
+      </View>
       <View style={styles.addButtonContainer}>
         <TouchableHighlight onPress={onAddPress}>
           <MaterialIcons

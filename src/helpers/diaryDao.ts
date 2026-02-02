@@ -6,6 +6,7 @@ export interface DiaryEntity {
   text: string;
   moods: string;
   created: string;
+  photoUrls: string;
 }
 
 export type NewDiaryItem = Omit<Diary, 'id' | 'created'>;
@@ -24,7 +25,7 @@ export interface DiaryDAO {
 class DiaryDaoImpl implements DiaryDAO {
   async initDatabase(db: SQLiteDatabase) {
     await db.execAsync(
-      'CREATE TABLE IF NOT EXISTS diary (id INTEGER PRIMARY KEY NOT NULL, text TEXT NOT NULL, moods TEXT, created TEXT NOT NULL)',
+      'CREATE TABLE IF NOT EXISTS diary (id INTEGER PRIMARY KEY NOT NULL, text TEXT NOT NULL, moods TEXT, photoUrls TEXT, created TEXT NOT NULL)',
     );
   }
 
@@ -40,13 +41,14 @@ class DiaryDaoImpl implements DiaryDAO {
     diary: NewDiaryItem,
   ): Promise<DiaryStoreEntity> {
     const statement = await db.prepareAsync(
-      'INSERT INTO diary (text, moods, created) VALUES ($text, $moods, $created) RETURNING *',
+      'INSERT INTO diary (text, moods, photoUrls, created) VALUES ($text, $moods, $photoUrls, $created) RETURNING *',
     );
     try {
       const result = await statement.executeAsync<DiaryEntity>({
         $text: diary.text,
         $moods: diary.moods.join(','),
         $created: new Date().toISOString(),
+        $photoUrls: diary.photoUrls.join(','),
       });
       const newItem = await result.getFirstAsync();
 
@@ -64,6 +66,9 @@ class DiaryDaoImpl implements DiaryDAO {
     return {
       ...diaryEntity,
       moods: diaryEntity.moods.length ? diaryEntity.moods.split(',') : [],
+      photoUrls: diaryEntity.photoUrls.length
+        ? diaryEntity.photoUrls.split(',')
+        : [],
     };
   }
 }

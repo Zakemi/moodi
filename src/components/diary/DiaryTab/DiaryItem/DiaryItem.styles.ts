@@ -16,5 +16,6 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
   },
   mainText: { color: PRIMARY_COLOR },
-  footer: { color: SECONDARY_VARIANT_COLOR, paddingTop: 10 },
+  moods: { color: SECONDARY_VARIANT_COLOR, paddingTop: 10 },
+  photos: { paddingTop: 10 },
 });

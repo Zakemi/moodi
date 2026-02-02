@@ -3,6 +3,7 @@ export interface Diary {
   text: string;
   moods: string[];
   created: Date;
+  photoUrls: string[];
 }
 
 export interface DiaryStoreEntity {
@@ -10,4 +11,5 @@ export interface DiaryStoreEntity {
   text: string;
   moods: string[];
   created: string;
+  photoUrls: string[];
 }

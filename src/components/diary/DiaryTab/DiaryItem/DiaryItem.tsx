@@ -1,5 +1,5 @@
 import { Diary } from '@/src/types';
-import { Text, View } from 'react-native';
+import { Image, Text, View } from 'react-native';
 import { styles } from './DiaryItem.styles';
 
 interface DiaryItemProps {
@@ -25,7 +25,14 @@ export function DiaryItem({ diary }: DiaryItemProps) {
       <View style={styles.separator} />
       <Text style={styles.mainText}>{diary.text}</Text>
       {!!diary.moods.length && (
-        <Text style={styles.footer}>{diary.moods.join(', ')}</Text>
+        <Text style={styles.moods}>{diary.moods.join(', ')}</Text>
+      )}
+      {!!diary.photoUrls.length && (
+        <View style={styles.photos}>
+          {diary.photoUrls.map((photoUrl) => (
+            <Image key={photoUrl} width={50} height={50} src={photoUrl} />
+          ))}
+        </View>
       )}
     </View>
   );

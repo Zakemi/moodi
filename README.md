@@ -1,6 +1,30 @@
-# Welcome to your Expo app 👋
+# Moodi :service_dog:
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This React Native + Expo project is a diary application, where users can add diary entries and review them.
+
+The goal of this application is to gather and store extra information about the diary entry, for example user's moods, geolocation, weather, photos, etc. Then, using these information, provide statistics as an overall reflection to the user.
+
+The future goal is to analyze all of these extra information and help to improve the user's mental health.
+
+## Features
+
+### Current features
+
+- Show list of diary entries
+- Add new diary entries
+  - saves current date and text of the entry
+  - pick current moods from a predefined list
+  - take photos with in-app camera
+
+![App images](docs/image.jpg)
+
+### Upcoming features and improvements
+
+- Save geolocation and current weather info
+- Add unit tests
+- Detailed view of diary entries
+- Attach existing photos from Gallery
+- Use AI to analyze photos and find out moods automatically
 
 ## Get started
 
@@ -23,28 +47,14 @@ In the output, you'll find options to open the app in a
 - [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
 - [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### Development tips
 
-## Get a fresh project
+- Trigger Android development build in EAS:
 
-When you're ready, run:
+  ```bash
+  eas build -p android -e development
+  ```
 
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- Use DevTools:
+  - Press J in expo console
+  - Ctrl + M in Android emulator

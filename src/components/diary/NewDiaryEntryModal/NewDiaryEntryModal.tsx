@@ -5,6 +5,8 @@ import {
   SECONDARY_VARIANT_COLOR,
 } from '@/src/constants/style';
 import { useDiary } from '@/src/hooks/useDiary';
+import { useLocation } from '@/src/hooks/useLocation';
+import { useWeather } from '@/src/hooks/useWeather';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Checkbox } from 'expo-checkbox';
@@ -72,6 +74,13 @@ export function NewDiaryEntryModal() {
   const { hasPermission, requestPermission } = useCameraPermission();
   const [isCameraActive, setCameraActive] = useState(false);
   const [photos, setPhotos] = useState<PhotoFile[]>([]);
+  const {
+    loading: locationLoading,
+    errorMsg: locationErrorMsg,
+    location,
+    locationText,
+  } = useLocation();
+  const { temperature, weatherCode } = useWeather({ location });
 
   const selectedMoods = moods
     .filter((mood) => mood.isSet)
@@ -147,16 +156,31 @@ export function NewDiaryEntryModal() {
         </View>
       </Modal>
       <View style={styles.header}>
-        <Text style={styles.headerText}>{now.toLocaleDateString()}</Text>
-        <Text style={styles.headerText}>
-          {now.toLocaleDateString('EN', { weekday: 'long' })}
-        </Text>
+        <View style={styles.headerItem}>
+          <Text style={styles.headerText}>{now.toLocaleDateString()}</Text>
+          <Text style={styles.headerText}>
+            {now.toLocaleDateString('EN', { weekday: 'long' })}
+          </Text>
+        </View>
+        <View style={styles.headerItem}>
+          {locationLoading && <Text>Location data is loading...</Text>}
+          {locationErrorMsg && <Text>{locationErrorMsg}</Text>}
+          {location && (
+            <>
+              <Text style={styles.headerText}>
+                {locationText
+                  ? locationText
+                  : `${location.coords.latitude}, ${location.coords.longitude}`}
+              </Text>
+              <Text style={styles.headerText}>
+                ({weatherCode}) {temperature}
+              </Text>
+            </>
+          )}
+        </View>
       </View>
-      <TouchableHighlight
-        onPress={() => setMoodModalVisible(true)}
-        style={styles.moodsInput}
-      >
-        <>
+      <TouchableHighlight onPress={() => setMoodModalVisible(true)}>
+        <View style={styles.moodsInput}>
           <View>
             <Text>What moods do you feel now?</Text>
             {!!selectedMoods.length && (
@@ -166,7 +190,7 @@ export function NewDiaryEntryModal() {
             )}
           </View>
           <MaterialIcons size={20} name="edit" color={ON_SURFACE_COLOR} />
-        </>
+        </View>
       </TouchableHighlight>
       <TextInput
         editable

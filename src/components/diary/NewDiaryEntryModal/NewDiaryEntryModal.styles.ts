@@ -79,6 +79,9 @@ export const styles = StyleSheet.create({
   moodSelectorItemSeparator: { marginBottom: 15 },
   selectedMoodsList: { color: SECONDARY_COLOR },
   header: {
+    flexDirection: 'column',
+  },
+  headerItem: {
     justifyContent: 'space-between',
     flexDirection: 'row',
     paddingBottom: 10,

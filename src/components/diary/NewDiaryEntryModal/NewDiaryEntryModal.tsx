@@ -112,6 +112,10 @@ export function NewDiaryEntryModal() {
     setPhotos((prevValue) => [...prevValue, photo]);
   };
 
+  const handleCameraClose = () => {
+    setCameraActive(false);
+  };
+
   return (
     <View style={styles.container}>
       <Modal
@@ -250,6 +254,7 @@ export function NewDiaryEntryModal() {
         <Camera
           isActive={isCameraActive}
           onPhotoCaptured={handlePhotoCaptured}
+          onCameraClose={handleCameraClose}
         />
       </View>
       <View style={styles.addButtonContainer}>

@@ -29,6 +29,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { PhotoFile, useCameraPermission } from 'react-native-vision-camera';
 import { Camera } from '../../camera';
 import { styles } from './NewDiaryEntryModal.styles';
+import { getAnalytics, logEvent } from '@react-native-firebase/analytics';
+
+const analytics = getAnalytics();
 
 export function NewDiaryEntryModal() {
   const [text, setText] = useState('');
@@ -110,10 +113,16 @@ export function NewDiaryEntryModal() {
   const handlePhotoCaptured = (photo: PhotoFile) => {
     setCameraActive(false);
     setPhotos((prevValue) => [...prevValue, photo]);
+    logEvent(analytics, 'camera', {
+      action: 'photoCaptured',
+    });
   };
 
   const handleCameraClose = () => {
     setCameraActive(false);
+    logEvent(analytics, 'camera', {
+      action: 'cameraClose',
+    });
   };
 
   return (

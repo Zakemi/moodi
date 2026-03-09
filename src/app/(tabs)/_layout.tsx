@@ -8,10 +8,14 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Tabs } from 'expo-router';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { user } from '@/src/store/user';
+import { Text } from 'react-native';
 
 export default function TabLayout() {
   const [isReady, setIsReady] = useState(false);
   const { loadDiary } = useDiary();
+  const currentUser = useSelector(user);
 
   useEffect(() => {
     async function initializeApp() {
@@ -58,12 +62,15 @@ export default function TabLayout() {
           ),
           tabBarLabel: 'Diary',
           headerRight: (props) => (
-            <Ionicons
-              name="person-circle-outline"
-              size={32}
-              color={PRIMARY_COLOR}
-              style={{ marginRight: 25 }}
-            />
+            <>
+              <Text>{currentUser.name}</Text>
+              <Ionicons
+                name="person-circle-outline"
+                size={32}
+                color={PRIMARY_COLOR}
+                style={{ marginLeft: 5, marginRight: 25 }}
+              />
+            </>
           ),
         }}
       />

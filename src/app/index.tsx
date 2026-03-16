@@ -4,9 +4,9 @@ import { useRouter } from 'expo-router';
 import { useAuthentication } from '@/src/hooks/useAuthentication';
 
 export const App = () => {
-  const currentUser = useSelector(user);
+  // const currentUser = useSelector(user);
   const router = useRouter();
-  const { isAuthInitializing } = useAuthentication();
+  const { isAuthInitializing, user: currentUser } = useAuthentication();
 
   console.log('currentUser', currentUser);
 

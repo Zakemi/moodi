@@ -1,17 +1,30 @@
-import { setUser } from '@/src/store/user';
+// import { setUser } from '@/src/store/user';
 import { useEffect, useState } from 'react';
-import { getAuth, onAuthStateChanged } from '@firebase/auth';
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut,
+} from '@react-native-firebase/auth';
 
-import { initializeApp } from '@react-native-firebase/app';
-import { getApp, getApps } from '@firebase/app';
+import { initializeApp, getApp, getApps } from '@react-native-firebase/app';
+import { useRouter } from 'expo-router';
 
 export const useAuthentication = () => {
   const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState(null);
+  const router = useRouter();
 
   // Handle user state changes
-  function handleAuthStateChanged(user) {
-    setUser(user);
+  function handleAuthStateChanged(newUser) {
+    console.log('GOT USER:', newUser);
+    setUser(newUser);
     if (initializing) setInitializing(false);
+  }
+
+  async function logout() {
+    await signOut(getAuth());
+    router.navigate('/');
+    setUser(null);
   }
 
   useEffect(() => {
@@ -36,12 +49,17 @@ export const useAuthentication = () => {
       } else {
         app = getApp();
       }
-      onAuthStateChanged(getAuth(app), handleAuthStateChanged);
+      console.log(app);
+      const auth = getAuth(app);
+      console.log(auth);
+      onAuthStateChanged(auth, handleAuthStateChanged);
     }
     init();
   }, []);
 
   return {
     isAuthInitializing: initializing,
+    user,
+    logout,
   };
 };

@@ -25,9 +25,10 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     color: PRIMARY_COLOR,
   },
+  fullwidth: {
+    width: '100%',
+  },
   button: {
-    borderRadius: 10,
-    borderWidth: 1,
     padding: 10,
     alignItems: 'center',
   },

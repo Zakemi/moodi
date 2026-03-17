@@ -1,20 +1,15 @@
-import { user } from '@/src/store/user';
-import { useSelector } from 'react-redux';
 import { useRouter } from 'expo-router';
 import { useAuthentication } from '@/src/hooks/useAuthentication';
 
 export const App = () => {
-  // const currentUser = useSelector(user);
   const router = useRouter();
-  const { isAuthInitializing, user: currentUser } = useAuthentication();
-
-  console.log('currentUser', currentUser);
+  const { isAuthInitializing, user } = useAuthentication();
 
   if (isAuthInitializing) {
     return null;
   }
 
-  if (currentUser === null) {
+  if (user === null) {
     router.navigate('/login');
   } else {
     router.navigate('/(tabs)');

@@ -8,15 +8,14 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Tabs } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { user } from '@/src/store/user';
 import { Text, TouchableOpacity } from 'react-native';
 import { useAuthentication } from '@/src/hooks/useAuthentication';
+import { styles } from './_layout.styles';
 
 export default function TabLayout() {
   const [isReady, setIsReady] = useState(false);
   const { loadDiary } = useDiary();
-  const { user: currentUser, logout } = useAuthentication();
+  const { user, logout } = useAuthentication();
 
   useEffect(() => {
     async function initializeApp() {
@@ -32,7 +31,7 @@ export default function TabLayout() {
     initializeApp();
   }, []);
 
-  if (!isReady || !currentUser) {
+  if (!isReady || !user) {
     return null;
   }
 
@@ -64,24 +63,17 @@ export default function TabLayout() {
           tabBarLabel: 'Diary',
           headerRight: (props) => (
             <>
-              <Text>
-                {currentUser.isAnonymous ? 'Guest' : currentUser.displayName}
-              </Text>
               <Ionicons
                 name="person-circle-outline"
                 size={32}
                 color={PRIMARY_COLOR}
-                style={{ marginLeft: 5 }}
               />
+              <Text style={styles.userName}>
+                {user.isAnonymous ? 'Guest' : user.displayName}
+              </Text>
+
               <TouchableOpacity
-                style={{
-                  marginLeft: 10,
-                  marginRight: 25,
-                  padding: 10,
-                  borderColor: 'black',
-                  borderWidth: 1,
-                  borderRadius: 10,
-                }}
+                style={styles.logoutButton}
                 onPress={() => logout()}
               >
                 <Text>Logout</Text>

@@ -1,5 +1,7 @@
-import { useRouter } from 'expo-router';
+import { Href, Redirect } from 'expo-router';
 import { useAuthentication } from '@/src/hooks/useAuthentication';
+
+const authenticatedHref = '/(tabs)/diary' as Href;
 
 export const App = () => {
   const router = useRouter();
@@ -9,12 +11,7 @@ export const App = () => {
     return null;
   }
 
-  if (user === null) {
-    router.navigate('/login');
-  } else {
-    router.navigate('/(tabs)');
-  }
-  return null;
+  return <Redirect href={user ? authenticatedHref : '/login'} />;
 };
 
 export default App;

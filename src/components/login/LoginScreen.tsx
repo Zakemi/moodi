@@ -14,17 +14,11 @@ import { styles } from './LoginScreen.styles';
 import { Alert, Text, TouchableOpacity, View } from 'react-native';
 
 export const LoginScreen = () => {
-  const router = useRouter();
-
   const googleLogin = async () => {
-    // todo Call it in Splash screen instead
-    GoogleSignin.configure({
-      webClientId: 'placeholder', // TODO move into env var
-    });
     const result = await GoogleSignin.signIn();
 
     if (result.type === 'success' && result.data.idToken) {
-      signInWithCredential(
+      await signInWithCredential(
         getAuth(),
         GoogleAuthProvider.credential(result.data.idToken),
       );
@@ -45,7 +39,6 @@ export const LoginScreen = () => {
   const guestLogin = async () => {
     try {
       await signInAnonymously(getAuth());
-      router.navigate('/');
     } catch (error) {
       console.error(error);
       Alert.alert('Guest login error', 'Login failed, please try again.', [

@@ -18,7 +18,7 @@ export default function TabLayout() {
   const { user, logout } = useAuthentication();
 
   useEffect(() => {
-    async function initializeApp() {
+    const initializeApp = async () => {
       try {
         await loadDiary();
       } catch (e) {
@@ -26,14 +26,10 @@ export default function TabLayout() {
       } finally {
         setIsReady(true);
       }
-    }
+    };
 
     initializeApp();
   }, []);
-
-  if (!isReady || !user) {
-    return null;
-  }
 
   return (
     <Tabs
@@ -54,7 +50,7 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="diary"
         options={{
           title: 'MOODI',
           tabBarIcon: ({ color }) => (
@@ -69,7 +65,7 @@ export default function TabLayout() {
                 color={PRIMARY_COLOR}
               />
               <Text style={styles.userName}>
-                {user.isAnonymous ? 'Guest' : user.displayName}
+                {user?.isAnonymous ? 'Guest' : user?.displayName}
               </Text>
 
               <TouchableOpacity

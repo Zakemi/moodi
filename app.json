@@ -45,7 +45,8 @@
           "image": "./assets/images/moodi_logo.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#543022"
+          "backgroundColor": "#543022",
+          "autoHide": false
         }
       ],
       "expo-sqlite",

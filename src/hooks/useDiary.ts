@@ -9,7 +9,7 @@ export const useDiary = () => {
   const dispatch = useDispatch();
   const isDiaryInitialized = useSelector(initialized);
 
-  async function loadDiary() {
+  const loadDiary = async () => {
     if (isDiaryInitialized) {
       return;
     }
@@ -19,7 +19,7 @@ export const useDiary = () => {
 
     const allEntities = await diaryDao.getAllDiaryEntities(db);
     dispatch(initEntries(allEntities));
-  }
+  };
 
   const addItem = async (diaryEntity: NewDiaryItem) => {
     const newItem = await diaryDao.createDiaryEntity(db, diaryEntity);

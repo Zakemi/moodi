@@ -37,7 +37,7 @@ export function DiaryTab() {
         />
       )}
       {!items.length && (
-        <View style={styles.addNewContainer}>
+        <View style={styles.emptyDiaryContainer}>
           <Text style={styles.emptyDiaryText}>
             Write something to your diary
           </Text>

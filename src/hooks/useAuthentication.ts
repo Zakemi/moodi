@@ -5,30 +5,38 @@ import {
   onAuthStateChanged,
   signOut,
 } from '@react-native-firebase/auth';
-
-import { initializeApp, getApp, getApps } from '@react-native-firebase/app';
 import { useRouter } from 'expo-router';
 
-export const useAuthentication = () => {
+import { initializeApp, getApp, getApps } from '@react-native-firebase/app';
+
+type AuthenticationContextValue = {
+  isAuthInitializing: boolean;
+  user: FirebaseAuthTypes.User | null;
+  logout: () => Promise<void>;
+};
+
+const AuthenticationContext = createContext<AuthenticationContextValue | null>(
+  null,
+);
+
+export const AuthenticationProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}) => {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
   const router = useRouter();
 
-  // Handle user state changes
-  function handleAuthStateChanged(newUser: FirebaseAuthTypes.User | null) {
-    setUser(newUser);
-    // TODO fix error: Maximum call stack size exceeded
-    // dispatch(setStoreUser(newUser));
-    if (initializing) setInitializing(false);
-  }
-
-  async function logout() {
+  const logout = async () => {
     await signOut(getAuth());
-    router.navigate('/');
-  }
+  };
 
   useEffect(() => {
-    async function init() {
+    let unsubscribe: undefined | (() => void);
+
+    const init = async () => {
+      // TODO move into helper
       const apps = getApps();
       let app;
       if (!apps.length) {
@@ -39,15 +47,40 @@ export const useAuthentication = () => {
       }
 
       const auth = getAuth(app);
-      onAuthStateChanged(auth, handleAuthStateChanged);
-    }
+      unsubscribe = onAuthStateChanged(auth, (newUser) => {
+        setUser(newUser);
+        setInitializing(false);
+        router.navigate('/');
+      });
+    };
 
-    init();
+    void init();
+
+    return () => {
+      unsubscribe?.();
+    };
   }, []);
 
-  return {
-    isAuthInitializing: initializing,
-    user,
-    logout,
-  };
+  const value = useMemo(
+    () => ({
+      isAuthInitializing: initializing,
+      user,
+      logout,
+    }),
+    [initializing, user],
+  );
+
+  return createElement(AuthenticationContext.Provider, { value }, children);
+};
+
+export const useAuthentication = () => {
+  const context = useContext(AuthenticationContext);
+
+  if (!context) {
+    throw new Error(
+      'useAuthentication must be used within an AuthenticationProvider',
+    );
+  }
+
+  return context;
 };

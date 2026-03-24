@@ -3,7 +3,7 @@ import {
   ON_ACCENT_COLOR,
   ON_SURFACE_COLOR,
   SECONDARY_VARIANT_COLOR,
-} from '@/src/constants/style';
+} from '@/src/containers/ThemeContext/constants';
 import { useDiary } from '@/src/hooks/useDiary';
 import { useLocation } from '@/src/hooks/useLocation';
 import { useWeather } from '@/src/hooks/useWeather';

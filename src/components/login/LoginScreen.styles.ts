@@ -3,7 +3,7 @@ import {
   ON_ACCENT_COLOR,
   PRIMARY_COLOR,
   SURFACE_COLOR,
-} from '@/src/constants/style';
+} from '@/src/containers/ThemeContext/constants';
 
 export const styles = StyleSheet.create({
   screen: {

@@ -2,7 +2,7 @@ import {
   ACCENT_COLOR,
   BACKGROUND_COLOR,
   PRIMARY_COLOR,
-} from '@/src/constants/style';
+} from '@/src/containers/ThemeContext/constants';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({

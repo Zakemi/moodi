@@ -2,7 +2,7 @@ import {
   PRIMARY_COLOR,
   SECONDARY_VARIANT_COLOR,
   SURFACE_COLOR,
-} from '@/src/constants/style';
+} from '@/src/containers/ThemeContext/constants';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({

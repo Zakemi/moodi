@@ -1,10 +1,12 @@
 import { Text, View } from 'react-native';
-import { styles } from './StatsTab.styles';
+import { useThemedStyle } from '@/src/components/stats/StatsTab/StatsTab.styles';
 
 export function StatsTab() {
+  const styles = useThemedStyle();
+
   return (
     <View style={styles.container}>
-      <Text>Statistics page</Text>
+      <Text style={styles.text}>Statistics page</Text>
     </View>
   );
 }

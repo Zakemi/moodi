@@ -1,4 +1,4 @@
-import { ON_ACCENT_COLOR } from '@/src/constants/style';
+import { ON_ACCENT_COLOR } from '@/src/containers/ThemeContext/constants';
 import { diaryEntries } from '@/src/store/diary';
 import { Diary } from '@/src/types';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';

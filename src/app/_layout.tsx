@@ -1,4 +1,7 @@
-import { BACKGROUND_COLOR, PRIMARY_COLOR } from '@/src/constants/style';
+import {
+  BACKGROUND_COLOR,
+  PRIMARY_COLOR,
+} from '@/src/containers/ThemeContext/constants';
 import { store } from '@/src/store';
 import { Stack } from 'expo-router';
 import { SQLiteProvider } from 'expo-sqlite';
@@ -8,12 +11,15 @@ import {
   useAuthentication,
 } from '@/src/hooks/useAuthentication';
 import { SplashScreenController } from '@/src/containers/SplashScreenController';
+import { ThemeProvider } from '@/src/containers/ThemeContext/ThemeContext';
 
 export default function RootLayout() {
   return (
-    <AuthenticationProvider>
-      <RootNavigator />
-    </AuthenticationProvider>
+    <ThemeProvider>
+      <AuthenticationProvider>
+        <RootNavigator />
+      </AuthenticationProvider>
+    </ThemeProvider>
   );
 }
 

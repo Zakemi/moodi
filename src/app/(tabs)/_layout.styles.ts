@@ -1,6 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { createThemedStyleSheet } from '@/src/containers/ThemeContext';
 
-export const styles = StyleSheet.create({
+export const useThemedStyle = createThemedStyleSheet(() => ({
   userName: {
     marginLeft: 5,
   },
@@ -12,4 +12,4 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
   },
-});
+}));

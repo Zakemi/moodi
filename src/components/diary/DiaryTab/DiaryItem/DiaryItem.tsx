@@ -1,6 +1,6 @@
 import { Diary } from '@/src/types';
 import { Image, Text, View } from 'react-native';
-import { styles } from './DiaryItem.styles';
+import { useThemedStyle } from './DiaryItem.styles';
 
 interface DiaryItemProps {
   diary: Diary;
@@ -8,6 +8,7 @@ interface DiaryItemProps {
 
 export function DiaryItem({ diary }: DiaryItemProps) {
   const createdDate = new Date(diary.created);
+  const styles = useThemedStyle();
 
   return (
     <View style={styles.container}>

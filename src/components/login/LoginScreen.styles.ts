@@ -1,21 +1,16 @@
-import { StyleSheet } from 'react-native';
-import {
-  ON_ACCENT_COLOR,
-  PRIMARY_COLOR,
-  SURFACE_COLOR,
-} from '@/src/containers/ThemeContext/constants';
+import { createThemedStyleSheet, Theme } from '@/src/containers/ThemeContext';
 
-export const styles = StyleSheet.create({
+export const useThemedStyle = createThemedStyleSheet((theme: Theme) => ({
   screen: {
-    backgroundColor: PRIMARY_COLOR,
-    color: ON_ACCENT_COLOR,
+    backgroundColor: theme.colors.primary,
+    color: theme.colors.onAccent,
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 50,
   },
   container: {
-    backgroundColor: SURFACE_COLOR,
+    backgroundColor: theme.colors.surface,
     padding: 30,
     borderRadius: 20,
     gap: 30,
@@ -23,7 +18,7 @@ export const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    color: PRIMARY_COLOR,
+    color: theme.colors.primary,
   },
   fullwidth: {
     width: '100%',
@@ -34,6 +29,6 @@ export const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
-    color: PRIMARY_COLOR,
+    color: theme.colors.primary,
   },
-});
+}));

@@ -10,12 +10,13 @@ import { Tabs } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import { useAuthentication } from '@/src/hooks/useAuthentication';
-import { styles } from './_layout.styles';
+import { useThemedStyle } from './_layout.styles';
 
 export default function TabLayout() {
   const [isReady, setIsReady] = useState(false);
   const { loadDiary } = useDiary();
   const { user, logout } = useAuthentication();
+  const styles = useThemedStyle();
 
   useEffect(() => {
     const initializeApp = async () => {

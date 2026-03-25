@@ -6,7 +6,7 @@ import {
   useCameraDevice,
   Camera as VisionCamera,
 } from 'react-native-vision-camera';
-import { styles } from './Camera.styles';
+import { useThemedStyle } from './Camera.styles';
 import { CaptureButton } from './CaptureButton';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -25,6 +25,7 @@ export const Camera = ({
   const device = useCameraDevice('back');
   const appState = useAppState();
   const isAppActive = appState === 'active';
+  const styles = useThemedStyle();
 
   if (device === undefined) {
     return (

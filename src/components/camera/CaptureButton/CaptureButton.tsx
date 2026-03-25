@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { TouchableHighlight, View } from 'react-native';
 import { Camera, PhotoFile } from 'react-native-vision-camera';
-import { styles } from './CaptureButton.styles';
+import { useThemedStyle } from './CaptureButton.styles';
 
 export interface CaptureButtonProps {
   enabled: boolean;
@@ -14,6 +14,8 @@ export const CaptureButton = ({
   camera,
   onPhotoCaptured,
 }: CaptureButtonProps) => {
+  const styles = useThemedStyle();
+
   const takePhoto = useCallback(async () => {
     try {
       if (!enabled) return;

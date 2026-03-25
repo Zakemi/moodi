@@ -1,6 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { createThemedStyleSheet } from '@/src/containers/ThemeContext';
 
-export const styles = StyleSheet.create({
+export const useThemedStyle = createThemedStyleSheet(() => ({
   buttonContainer: {
     flex: 1,
     alignItems: 'center',
@@ -22,4 +22,4 @@ export const styles = StyleSheet.create({
     width: '100%',
     borderRadius: 20,
   },
-});
+}));

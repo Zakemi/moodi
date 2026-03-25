@@ -1,4 +1,3 @@
-import { useRouter } from 'expo-router';
 import {
   GoogleSignin,
   GoogleSigninButton,
@@ -10,10 +9,12 @@ import {
   signInWithCredential,
 } from '@react-native-firebase/auth';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { styles } from './LoginScreen.styles';
+import { useThemedStyle } from './LoginScreen.styles';
 import { Alert, Text, TouchableOpacity, View } from 'react-native';
 
 export const LoginScreen = () => {
+  const styles = useThemedStyle();
+
   const googleLogin = async () => {
     const result = await GoogleSignin.signIn();
 

@@ -6,11 +6,12 @@ import { useRouter } from 'expo-router';
 import { Text, TouchableHighlight, View, VirtualizedList } from 'react-native';
 import { useSelector } from 'react-redux';
 import { DiaryItem } from './DiaryItem';
-import { styles } from './DiaryTab.styles';
+import { useThemedStyle } from './DiaryTab.styles';
 
 export function DiaryTab() {
   const router = useRouter();
   const items = useSelector(diaryEntries);
+  const styles = useThemedStyle();
 
   return (
     <View style={styles.container}>

@@ -28,7 +28,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { PhotoFile, useCameraPermission } from 'react-native-vision-camera';
 import { Camera } from '../../camera';
-import { styles } from './NewDiaryEntryModal.styles';
+import { useThemedStyle } from './NewDiaryEntryModal.styles';
 import { getAnalytics, logEvent } from '@react-native-firebase/analytics';
 
 const analytics = getAnalytics();
@@ -84,6 +84,7 @@ export function NewDiaryEntryModal() {
     locationText,
   } = useLocation();
   const { temperature, weatherCode } = useWeather({ location });
+  const styles = useThemedStyle();
 
   const selectedMoods = moods
     .filter((mood) => mood.isSet)

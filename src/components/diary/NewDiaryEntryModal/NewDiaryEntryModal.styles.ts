@@ -1,31 +1,23 @@
-import {
-  ACCENT_COLOR,
-  BACKGROUND_COLOR,
-  ON_ACCENT_COLOR,
-  SECONDARY_COLOR,
-  SECONDARY_VARIANT_COLOR,
-  SURFACE_COLOR,
-} from '@/src/containers/ThemeContext/constants';
-import { StyleSheet } from 'react-native';
+import { createThemedStyleSheet, Theme } from '@/src/containers/ThemeContext';
 
-export const styles = StyleSheet.create({
+export const useThemedStyle = createThemedStyleSheet((theme: Theme) => ({
   container: {
     flex: 1,
     padding: 20,
     paddingTop: 0,
     position: 'relative',
-    backgroundColor: BACKGROUND_COLOR,
+    backgroundColor: theme.colors.background,
   },
   textInput: {
     flex: 1,
-    backgroundColor: SURFACE_COLOR,
+    backgroundColor: theme.colors.surface,
     borderRadius: 20,
     paddingLeft: 20,
     paddingRight: 20,
   },
   moodsInput: {
     marginBottom: 10,
-    backgroundColor: SURFACE_COLOR,
+    backgroundColor: theme.colors.surface,
     borderRadius: 20,
     paddingHorizontal: 20,
     paddingVertical: 10,
@@ -41,7 +33,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     borderStyle: 'dashed',
-    borderColor: SECONDARY_VARIANT_COLOR,
+    borderColor: theme.colors.secondaryVariant,
   },
   addImageButton: {
     margin: 20,
@@ -49,10 +41,10 @@ export const styles = StyleSheet.create({
   button: {
     padding: 10,
     alignItems: 'center',
-    backgroundColor: ACCENT_COLOR,
+    backgroundColor: theme.colors.accent,
   },
   buttonText: {
-    color: ON_ACCENT_COLOR,
+    color: theme.colors.onAccent,
   },
   modalContainer: {
     flex: 1,
@@ -77,7 +69,7 @@ export const styles = StyleSheet.create({
   modalScrollView: { marginBottom: 20 },
   moodSelectorItem: { flexDirection: 'row', gap: 5 },
   moodSelectorItemSeparator: { marginBottom: 15 },
-  selectedMoodsList: { color: SECONDARY_COLOR },
+  selectedMoodsList: { color: theme.colors.secondary },
   header: {
     flexDirection: 'column',
   },
@@ -87,7 +79,7 @@ export const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   headerText: {
-    color: SECONDARY_VARIANT_COLOR,
+    color: theme.colors.secondaryVariant,
   },
   addButtonContainer: {
     position: 'absolute',
@@ -96,11 +88,11 @@ export const styles = StyleSheet.create({
     zIndex: 100,
   },
   addButtonIcon: {
-    backgroundColor: ACCENT_COLOR,
+    backgroundColor: theme.colors.accent,
     padding: 10,
     borderRadius: 30,
   },
   cameraContainer: {
     zIndex: 500,
   },
-});
+}));

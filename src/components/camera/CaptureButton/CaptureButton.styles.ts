@@ -1,6 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { createThemedStyleSheet } from '@/src/containers/ThemeContext';
 
-export const styles = StyleSheet.create({
+export const useThemedStyle = createThemedStyleSheet(() => ({
   button: {
     backgroundColor: '#fff',
     width: 80,
@@ -10,4 +10,4 @@ export const styles = StyleSheet.create({
   disabled: {
     backgroundColor: '#777',
   },
-});
+}));

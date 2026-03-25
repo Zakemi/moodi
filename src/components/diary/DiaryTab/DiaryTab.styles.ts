@@ -1,17 +1,12 @@
-import {
-  ACCENT_COLOR,
-  BACKGROUND_COLOR,
-  PRIMARY_COLOR,
-} from '@/src/containers/ThemeContext/constants';
-import { StyleSheet } from 'react-native';
+import { createThemedStyleSheet, Theme } from '@/src/containers/ThemeContext';
 
-export const styles = StyleSheet.create({
+export const useThemedStyle = createThemedStyleSheet((theme: Theme) => ({
   container: {
     flex: 1,
     paddingRight: 16,
     paddingLeft: 16,
     position: 'relative',
-    backgroundColor: BACKGROUND_COLOR,
+    backgroundColor: theme.colors.background,
   },
   addNewContainer: {
     position: 'absolute',
@@ -20,7 +15,7 @@ export const styles = StyleSheet.create({
     zIndex: 100,
   },
   addNewIcon: {
-    backgroundColor: ACCENT_COLOR,
+    backgroundColor: theme.colors.accent,
     padding: 10,
     borderRadius: 30,
   },
@@ -30,5 +25,5 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  emptyDiaryText: { color: PRIMARY_COLOR },
-});
+  emptyDiaryText: { color: theme.colors.primary },
+}));

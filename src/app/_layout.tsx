@@ -1,7 +1,7 @@
 import {
   BACKGROUND_COLOR,
   PRIMARY_COLOR,
-} from '@/src/containers/ThemeContext/constants';
+} from '@/src/contexts/Theme/constants';
 import { store } from '@/src/store';
 import { Stack } from 'expo-router';
 import { SQLiteProvider } from 'expo-sqlite';
@@ -11,7 +11,7 @@ import {
   useAuthentication,
 } from '@/src/hooks/useAuthentication';
 import { SplashScreenController } from '@/src/containers/SplashScreenController';
-import { ThemeProvider } from '@/src/containers/ThemeContext/ThemeContext';
+import { ThemeProvider } from '@/src/contexts/Theme/Theme';
 
 export default function RootLayout() {
   return (

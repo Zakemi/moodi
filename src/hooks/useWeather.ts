@@ -1,7 +1,7 @@
 import { LocationObject } from 'expo-location';
 import { useEffect, useState } from 'react';
 
-export interface WeatherData {
+export interface WeatherInfo {
   weatherCode: string;
   temperature: string;
 }
@@ -41,7 +41,7 @@ export const useWeather = ({
   location,
 }: {
   location: LocationObject | null;
-}) => {
+}): WeatherInfo => {
   const [weatherCode, setWeatherCode] = useState('');
   const [temperature, setTemperature] = useState('');
 

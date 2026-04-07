@@ -1,20 +1,14 @@
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-} from '@react-native-google-signin/google-signin';
+import { LoginScreen } from '@/src/screens/login';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import {
   getAuth,
   GoogleAuthProvider,
   signInAnonymously,
   signInWithCredential,
 } from '@react-native-firebase/auth';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useThemedStyle } from './LoginScreen.styles';
-import { Alert, Text, TouchableOpacity, View } from 'react-native';
+import { Alert } from 'react-native';
 
-export const LoginScreen = () => {
-  const styles = useThemedStyle();
-
+export const LoginContainer = () => {
   const googleLogin = async () => {
     const result = await GoogleSignin.signIn();
 
@@ -50,16 +44,5 @@ export const LoginScreen = () => {
       ]);
     }
   };
-
-  return (
-    <SafeAreaView style={styles.screen}>
-      <View style={styles.container}>
-        <Text style={styles.title}>Login with a user</Text>
-        <GoogleSigninButton onPress={googleLogin} style={styles.fullwidth} />
-        <TouchableOpacity onPress={guestLogin} style={styles.button}>
-          <Text style={styles.buttonText}>or continue as Guest</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
-  );
+  return <LoginScreen onGoogleLogin={googleLogin} onGuestLogin={guestLogin} />;
 };

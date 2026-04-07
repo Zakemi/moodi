@@ -1,4 +1,4 @@
-import { createThemedStyleSheet } from '@/src/containers/ThemeContext';
+import { createThemedStyleSheet } from '@/src/contexts/Theme';
 
 export const useThemedStyle = createThemedStyleSheet(() => ({
   userName: {

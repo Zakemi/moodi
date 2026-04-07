@@ -1,4 +1,4 @@
-import { Theme } from '@/src/containers/ThemeContext/types';
+import { Theme } from './types';
 
 export const BACKGROUND_COLOR = '#f8e0c8';
 export const SURFACE_COLOR = '#fff';

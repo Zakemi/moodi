@@ -1,7 +1,7 @@
 import { Text, View } from 'react-native';
-import { useThemedStyle } from '@/src/components/stats/StatsTab/StatsTab.styles';
+import { useThemedStyle } from '@/src/screens/stats/StatsSceen.styles';
 
-export function StatsTab() {
+export function StatsScreen() {
   const styles = useThemedStyle();
 
   return (

@@ -1,6 +1,6 @@
-import { NamedStyles, Theme } from '@/src/containers/ThemeContext/types';
+import { NamedStyles, Theme } from '@/src/contexts/Theme/types';
 import { StyleSheet } from 'react-native';
-import { useTheme } from '@/src/containers/ThemeContext/ThemeContext';
+import { useTheme } from '@/src/contexts/Theme/Theme';
 
 /**
  * Creates an interface like `StyleSheet.create` enhanced with theme support.

@@ -1,5 +1,5 @@
-import { StatsTab } from '@/src/components/stats/StatsTab';
+import { StatsContainer } from '@/src/containers/stats';
 
 export default function Index() {
-  return <StatsTab />;
+  return <StatsContainer />;
 }

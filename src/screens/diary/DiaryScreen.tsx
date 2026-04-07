@@ -1,22 +1,26 @@
-import { ON_ACCENT_COLOR } from '@/src/containers/ThemeContext/constants';
-import { diaryEntries } from '@/src/store/diary';
+import { ON_ACCENT_COLOR } from '@/src/contexts/Theme/constants';
 import { Diary } from '@/src/types';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { useRouter } from 'expo-router';
 import { Text, TouchableHighlight, View, VirtualizedList } from 'react-native';
-import { useSelector } from 'react-redux';
 import { DiaryItem } from './DiaryItem';
-import { useThemedStyle } from './DiaryTab.styles';
+import { useThemedStyle } from './DiaryScreen.styles';
+import { JSX } from 'react';
 
-export function DiaryTab() {
-  const router = useRouter();
-  const items = useSelector(diaryEntries);
+interface DiaryScreenProps {
+  items: Diary[];
+  onAddNewDiary: () => void;
+}
+
+export function DiaryScreen({
+  items,
+  onAddNewDiary,
+}: DiaryScreenProps): JSX.Element {
   const styles = useThemedStyle();
 
   return (
     <View style={styles.container}>
       <View style={styles.addNewContainer}>
-        <TouchableHighlight onPress={() => router.navigate('/modal')}>
+        <TouchableHighlight onPress={onAddNewDiary}>
           <MaterialIcons
             size={35}
             name="add"

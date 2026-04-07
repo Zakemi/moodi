@@ -1,5 +1,5 @@
-import { NewDiaryEntryModal } from '@/src/components/diary/NewDiaryEntryModal';
+import { AddDiaryItemContainer } from '@/src/containers/addDiaryItem';
 
 export default function ModalScreen() {
-  return <NewDiaryEntryModal />;
+  return <AddDiaryItemContainer />;
 }

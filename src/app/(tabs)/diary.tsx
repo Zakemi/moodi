@@ -1,5 +1,5 @@
-import { DiaryTab } from '@/src/components/diary';
+import { DiaryContainer } from '@/src/containers/diary/DiaryContainer';
 
 export default function Diary() {
-  return <DiaryTab />;
+  return <DiaryContainer />;
 }

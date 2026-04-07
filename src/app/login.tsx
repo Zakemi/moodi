@@ -1,5 +1,5 @@
-import { LoginScreen } from '@/src/components/login';
+import { LoginContainer } from '@/src/containers/login/LoginContainer';
 
 export default function LoginPage() {
-  return <LoginScreen />;
+  return <LoginContainer />;
 }

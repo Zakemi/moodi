@@ -1,2 +1,0 @@
-export * from './DiaryTab';
-export * from './NewDiaryEntryModal';

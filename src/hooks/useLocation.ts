@@ -1,8 +1,15 @@
 import * as Location from 'expo-location';
-import { LocationAccuracy } from 'expo-location';
+import { LocationAccuracy, LocationObject } from 'expo-location';
 import { useEffect, useState } from 'react';
 
-export const useLocation = () => {
+export interface LocationInfo {
+  loading: boolean;
+  errorMsg: string | null;
+  location: LocationObject | null;
+  locationText: string | null;
+}
+
+export const useLocation = (): LocationInfo => {
   const [loading, setLoading] = useState(true);
   const [location, setLocation] = useState<Location.LocationObject | null>(
     null,

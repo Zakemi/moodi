@@ -3,14 +3,12 @@ import {
   ON_ACCENT_COLOR,
   ON_SURFACE_COLOR,
   SECONDARY_VARIANT_COLOR,
-} from '@/src/containers/ThemeContext/constants';
-import { useDiary } from '@/src/hooks/useDiary';
-import { useLocation } from '@/src/hooks/useLocation';
-import { useWeather } from '@/src/hooks/useWeather';
+} from '@/src/contexts/Theme/constants';
+import { LocationInfo } from '@/src/hooks/useLocation';
+import { WeatherInfo } from '@/src/hooks/useWeather';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Checkbox } from 'expo-checkbox';
-import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
   Button,
@@ -27,13 +25,30 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { PhotoFile, useCameraPermission } from 'react-native-vision-camera';
-import { Camera } from '../../camera';
-import { useThemedStyle } from './NewDiaryEntryModal.styles';
+import { Camera } from '../../components/camera';
+import { useThemedStyle } from './AddDiaryItemScreen.styles';
 import { getAnalytics, logEvent } from '@react-native-firebase/analytics';
 
 const analytics = getAnalytics();
 
-export function NewDiaryEntryModal() {
+export interface AddDiaryItemProps {
+  text: string;
+  moods: { isSet: boolean; mood: string }[];
+  photos: PhotoFile[];
+}
+
+interface AddDiaryItemScreenProps {
+  onAddDiaryItem: (data: AddDiaryItemProps) => void;
+  locationInfo: LocationInfo;
+  weatherInfo: WeatherInfo;
+}
+
+export function AddDiaryItemScreen({
+  onAddDiaryItem,
+  locationInfo,
+  weatherInfo,
+}: AddDiaryItemScreenProps) {
+  const styles = useThemedStyle();
   const [text, setText] = useState('');
   const [moods, setMoods] = useState([
     // Positive moods
@@ -71,37 +86,14 @@ export function NewDiaryEntryModal() {
     { isSet: false, mood: 'bored' },
   ]);
   const [moodModalVisible, setMoodModalVisible] = useState(false);
-  const now = new Date();
-  const router = useRouter();
-  const { addItem } = useDiary();
-  const { hasPermission, requestPermission } = useCameraPermission();
-  const [isCameraActive, setCameraActive] = useState(false);
   const [photos, setPhotos] = useState<PhotoFile[]>([]);
-  const {
-    loading: locationLoading,
-    errorMsg: locationErrorMsg,
-    location,
-    locationText,
-  } = useLocation();
-  const { temperature, weatherCode } = useWeather({ location });
-  const styles = useThemedStyle();
+  const [isCameraActive, setCameraActive] = useState(false);
+  const { hasPermission, requestPermission } = useCameraPermission();
+  const now = new Date();
 
   const selectedMoods = moods
     .filter((mood) => mood.isSet)
     .map((mood) => mood.mood);
-
-  const onAddPress = async () => {
-    if (!text.length) {
-      return;
-    }
-
-    await addItem({
-      text,
-      moods: moods.filter((mood) => mood.isSet).map((mood) => mood.mood),
-      photoUrls: photos.map((photo) => `file://${photo.path}`),
-    });
-    router.back();
-  };
 
   const onSetMood = (changedMood: string, isSet: boolean) => {
     setMoods((prevMoods) =>
@@ -124,6 +116,10 @@ export function NewDiaryEntryModal() {
     logEvent(analytics, 'camera', {
       action: 'cameraClose',
     });
+  };
+
+  const handleAddDiaryItem = () => {
+    onAddDiaryItem({ text, moods, photos });
   };
 
   return (
@@ -177,17 +173,17 @@ export function NewDiaryEntryModal() {
           </Text>
         </View>
         <View style={styles.headerItem}>
-          {locationLoading && <Text>Location data is loading...</Text>}
-          {locationErrorMsg && <Text>{locationErrorMsg}</Text>}
+          {locationInfo.loading && <Text>Location data is loading...</Text>}
+          {locationInfo.errorMsg && <Text>{locationInfo.errorMsg}</Text>}
           {location && (
             <>
               <Text style={styles.headerText}>
-                {locationText
-                  ? locationText
-                  : `${location.coords.latitude}, ${location.coords.longitude}`}
+                {locationInfo.locationText
+                  ? locationInfo.locationText
+                  : `${locationInfo.location?.coords.latitude}, ${locationInfo.location?.coords.longitude}`}
               </Text>
               <Text style={styles.headerText}>
-                ({weatherCode}) {temperature}
+                ({weatherInfo.weatherCode}) {weatherInfo.temperature}
               </Text>
             </>
           )}
@@ -268,7 +264,7 @@ export function NewDiaryEntryModal() {
         />
       </View>
       <View style={styles.addButtonContainer}>
-        <TouchableHighlight onPress={onAddPress}>
+        <TouchableHighlight onPress={handleAddDiaryItem}>
           <MaterialIcons
             size={35}
             name="add"

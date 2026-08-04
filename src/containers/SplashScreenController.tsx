@@ -19,7 +19,7 @@ export function SplashScreenController() {
     }
 
     GoogleSignin.configure({
-      webClientId: 'placeholder', // TODO move into env var
+      webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
     });
     SplashScreen.hide();
   }, [isAppInitialized]);

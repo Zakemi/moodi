@@ -44,3 +44,12 @@ app-example
 
 # IDEs
 /.idea
+
+# Firebase
+functions/lib/
+functions/.secret.local
+firebase-debug.log
+firebase-debug.*.log
+.firebase/
+GoogleService-Info.plist
+google-services.json
